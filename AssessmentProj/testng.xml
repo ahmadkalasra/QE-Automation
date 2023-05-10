@@ -8,8 +8,8 @@
         <parameter name="BrowserType" value="CHROME"/>
             <classes>
                 <class name="Runners.Runner1"/>
-<!--                <class name="Runners.Runner2"/>-->
-<!--                <class name="Runners.Runner3"/>-->
+                <class name="Runners.Runner2"/>
+                <class name="Runners.Runner3"/>
         </classes>
     </test>
 </suite>

@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - main
-      - pre-main
 
 concurrency:
   group: $${{  github.head_ref  }}
@@ -15,8 +14,8 @@ concurrency:
 
 jobs:
   Build:
-    name: Windows E2E Build
-    runs-on: self-hosted
+    name: Windows Execution E2E Build
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -27,10 +26,6 @@ jobs:
         java-version: '19'
         distribution: 'temurin'
         cache: maven
-        
-#    - uses: browser-actions/setup-chrome@latest
-#    - name: Set up Google Chrome
-#      run: chrome --version
       
     - name: Create Logs folder
       run: |
@@ -50,6 +45,5 @@ jobs:
         name: Test Execution Logs
         path: |
           Logs/*
-          Reports/*
-          SampleProj/target/*
+          AssessmentProj/Reports/*
         if-no-files-found: warn

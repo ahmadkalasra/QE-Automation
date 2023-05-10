@@ -71,15 +71,7 @@ public class CustomizedTestNGCucumberRunner extends TestContext {
         ConfigHelper.setConfigValue(TestConstants.PathVariables.EXECUTION_REPORT_PATH, TestConstants.PathVariables.HTML_REPORT_FOLDER + File.separator +"ExecutionReport "+actualDate );
         var sparkReport = new ExtentSparkReporter(reportPath);
         ExtentService.getInstance().attachReporter(sparkReport);
-        System.out.println(reportConfigFilePath);
         sparkReport.loadXMLConfig(reportConfigFilePath);
         sparkReport.config().thumbnailForBase64(true);
-//        var sysInfo = new HashMap<String,String>();
-//        sysInfo.put("Host Name", System.getenv("COMPUTERNAME"));
-//        sysInfo.put("Environment", "Environment.MachineName");
-//        sysInfo.put("Domain", System.getenv("USERDOMAIN"));
-//        sysInfo.put("OS", System.getProperty("os.name"));
-//        sysInfo.put("Username", System.getProperty("user.name"));
-//        sysInfo.forEach((k,v) -> ExtentService.getInstance().setSystemInfo(k, v));
     }
 }

@@ -22,7 +22,7 @@ public class TestConstants
         public static final String BASE_DIRECTORY_PATH = BaseDirectory.getPath();
         public static final String GET_BASE_DIRECTORY = System.getProperty("user.dir");
         public static final String FRAMEWORK_DIRECTORY = BASE_DIRECTORY_PATH + File.separator + "Framework";
-        public static final String HTML_REPORT_FOLDER = GET_BASE_DIRECTORY + File.separator +"Reports";
+        public static final String HTML_REPORT_FOLDER = BASE_DIRECTORY_PATH + File.separator +"Reports";
         public static final String EXTENT_REPORT_NAME = "ExtentReport";
         public static final String CONFIG_FILE_NAME = "configSettings.properties";
         @SuppressWarnings("unused")

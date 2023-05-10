@@ -35,7 +35,7 @@ jobs:
       run: mvn clean install -pl Framework
       
     - name: Test with Maven
-      run: mvn clean test -fae -DBrowserType="Chrome_Headless"
+      run: mvn clean test -fae -DBrowserType="CHROME"
       timeout-minutes: 30
       
     - name: Upload Archive

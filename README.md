@@ -27,3 +27,9 @@ Following browsers are not yet implemented:
 
 
 If the tests pass/fail Extent Report will be saved in ${project.basedir}/Reports/ExecutionReport.html
+
+### Window Build CI
+
+Windows CI Job is added to execute build. Screenshot of passing build is attached below for reference!
+
+![Win_CI_Build.png](Win_CI_Build.png)

@@ -1,4 +1,4 @@
-# QE-Automation
+# QE-Automation-Selenium
 A maven project for Selenium with latest dependencies. Please follow below procedures to clone, execute or write test cases.
 
 1. Open a terminal window/command prompt

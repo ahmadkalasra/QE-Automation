@@ -4,7 +4,7 @@ A maven project for Selenium with latest dependencies. Please follow below proce
 1. Open a terminal window/command prompt
 2. Clone this project
 3. cd cloned-repo
-4. mvn clean verify
+4. mvn clean verify 
 
 All dependencies should now be downloaded
 

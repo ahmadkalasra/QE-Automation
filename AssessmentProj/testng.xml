@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite" parallel="classes" thread-count="32">
-    <test verbose="2" name="Planit Testing Assessment -Chrome">
-<!--        <parameter name="BrowserType" value="CHROME"/>-->
-            <classes>
-                <class name="Runners.Runner1"/>
-                <class name="Runners.Runner2"/>
-                <class name="Runners.Runner3"/>
+<suite name="All Test Suite" parallel="classes" thread-count="2"> <test verbose="2" name="Testing project -Chrome">
+        <classes>
+            <class name="Runners.Runner1"/>
+            <class name="Runners.Runner2"/>
+            <class name="Runners.Runner3"/>
         </classes>
     </test>
 </suite>

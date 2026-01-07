@@ -38,22 +38,27 @@ public class ChromeDriverHelper
 
     public WebDriver CreateChromeIPadProDriver(){ return SetupChromeDriver("iPad Pro"); }
 
-    private WebDriver SetupChromeDriver(String chromeType)
-    {
-        WebDriverManager.chromedriver().architecture(Architecture.DEFAULT).browserVersion("").setup();
-        Optional<Path> browserPath = WebDriverManager.chromedriver().getBrowserPath();
-        if(browserPath.isEmpty()) return null;
-        var chromeOption = new ChromeOptions();
-        switch (chromeType.toLowerCase()) {
-            case "headless" -> chromeOption.addArguments("start-maximized", "disable-gpu", "no-sandbox", "--headless=new","window-size=1280,800");
-            default -> chromeOption.addArguments("start-maximized", "--disable-gpu", "--no-sandbox");
+    private WebDriver SetupChromeDriver(String chromeType) {
+        // Let Selenium Manager resolve and download the matching ChromeDriver automatically
+        // (remove explicit WebDriverManager usage to avoid cache/version mismatches)
+        
+        ChromeOptions chromeOption = new ChromeOptions();
+        chromeOption.addArguments("--remote-allow-origins=*");
+        chromeOption.addArguments("--start-maximized");
+        chromeOption.addArguments("--disable-notifications");
+        chromeOption.addArguments("--disable-dev-shm-usage"); // Prevents crashes in high-concurrency
+        chromeOption.addArguments("--no-sandbox"); 
+
+        if (chromeType.equalsIgnoreCase("headless")) {
+            chromeOption.addArguments("--headless=new");
+            chromeOption.addArguments("--window-size=1920,1080");
         }
-        chromeOption.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-        Map<String, Object> prefs = new LinkedHashMap<>();
-        prefs.put("credentials_enable_service", Boolean.FALSE);
-        prefs.put("profile.password_manager_enabled", Boolean.FALSE);
-        chromeOption.setExperimentalOption("prefs", prefs);
-        chromeOption.setPageLoadStrategy(PageLoadStrategy.EAGER);
+        
+        // Add logic for other types if necessary (Incognito, Mobile Emulation)
+        if (chromeType.equalsIgnoreCase("incognito")) {
+            chromeOption.addArguments("--incognito");
+        }
+
         return new ChromeDriver(chromeOption);
     }
 }

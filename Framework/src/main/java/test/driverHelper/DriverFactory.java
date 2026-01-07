@@ -5,60 +5,54 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ThreadGuard;
 
-public class DriverFactory
-{
-    private static String browserName;
-    private static String browserVersion;
-    private static final Logger Log = LogManager.getLogger(DriverFactory.class.getName());
-    private DriverFactory(){}
-
+public class DriverFactory {
+    private static final ThreadLocal<String> browserName = new ThreadLocal<>();
+    private static final ThreadLocal<String> browserVersion = new ThreadLocal<>();
+    private static final Logger Log = LogManager.getLogger(DriverFactory.class);
+    
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    public static WebDriver getDriver()
-    {
+    private DriverFactory(){}
+
+    public static WebDriver getDriver() {
         return driver.get();
     }
 
-    public static void setDriver(WebDriver driverType)
-    {
+    public static void setDriver(WebDriver driverType) {
+        if (driverType == null) {
+            throw new RuntimeException("Fatal: WebDriver instance is null! Check DriverHelper or your -D command line arguments.");
+        }
+        
         driver.set(ThreadGuard.protect(driverType));
-        browserName = ((RemoteWebDriver)driverType).getCapabilities().getBrowserName();
-        browserVersion = ((RemoteWebDriver) driverType).getCapabilities().getBrowserVersion();
-        Log.info("%s WebDriver started successfully with browser version set as %s on Thread : %s".formatted(browserName, browserVersion, Thread.currentThread().threadId()));
+        
+        Capabilities caps = ((RemoteWebDriver) driverType).getCapabilities();
+        browserName.set(caps.getBrowserName());
+        browserVersion.set(caps.getBrowserVersion());
+        
+        Log.info("{} WebDriver started. Version: {} on Thread: {}", 
+            browserName.get(), browserVersion.get(), Thread.currentThread().threadId());
     }
 
-    public static String getBrowserVersion()
-    {
-        return browserVersion;
+    public static String getBrowserVersion() {
+        return browserVersion.get();
     }
 
-    public static byte[] GetScreenShot()
-    {
+    public static byte[] GetScreenShot() {
         return ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
     }
 
-    @SuppressWarnings("unused")
-    public static String GetScreenShotAsBase64()
-    {
-        return ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BASE64);
-    }
-
-    public static void QuitDriverInstance()
-    {
-        if(driver.get() == null)
-        {
-            Log.info("Driver Instance already Killed");
-            return;
-        }
-        try
-        {
-            driver.get().quit();
-            Log.info("Quit %s WebDriver successfully running on Thread : %s".formatted(browserName, Thread.currentThread().threadId()));
-            driver.remove();
-        }
-        catch (Exception e)
-        {
-            Log.error("Unable to Quit %s WebDriver due to %s".formatted(browserName,e.getMessage()));
+    public static void QuitDriverInstance() {
+        if (driver.get() != null) {
+            try {
+                driver.get().quit();
+                Log.info("Quit WebDriver successfully on Thread: {}", Thread.currentThread().threadId());
+            } catch (Exception e) {
+                Log.error("Unable to Quit WebDriver: {}", e.getMessage());
+            } finally {
+                driver.remove();
+                browserName.remove();
+                browserVersion.remove();
+            }
         }
     }
 }

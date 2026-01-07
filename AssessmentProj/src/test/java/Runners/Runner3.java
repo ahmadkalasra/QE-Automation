@@ -11,10 +11,11 @@ import test.utilities.CustomizedTestNGCucumberRunner;
         features = "src/test/resources/TestFeatures",
         tags = "@Test3",
         glue = {"StepDefinitions", "test/hooks/webHooks"},
-        plugin = {"pretty:target/cucumber-pretty.txt",
-                "html:target/cucumber-html-report.html",
-                "json:target/cucumber.json",
-                "rerun:target/rerun.txt",
+        plugin = {
+                "pretty",
+                "html:target/cucumber-reports/cucumber-html-report3.html",
+                "json:target/cucumber-reports/cucumber3.json", // Unique JSON for Runner3
+                "rerun:target/cucumber-reports/rerun3.txt",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
         }
 )
@@ -28,13 +29,14 @@ public final class Runner3 extends CustomizedTestNGCucumberRunner {
 
         @Parameters("BrowserType")
         @BeforeTest
-        public void beforeTest(String browser) {
-                ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.BROWSER,browser);
+        public void beforeTest(@Optional("CHROME") String browser) {
+                // Sets the browser for the current test context
+                ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.BROWSER, browser);
         }
 
         @AfterTest
-        public void afterTest()
-        {
-                ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.BROWSER,"");
+        public void afterTest() {
+                // Clean up the browser setting after test execution
+                ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.BROWSER, "");
         }
 }

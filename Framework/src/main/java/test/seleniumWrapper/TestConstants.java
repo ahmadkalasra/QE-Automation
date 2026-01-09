@@ -7,6 +7,7 @@ public class TestConstants
     public static class ConfigTypesKey
     {
         public static final String BROWSER = "Browser";
+        public static final String HEADLESS = "Headless";
         public static final String PAGE_LOAD_TIMEOUT = "PageLoadTimeOut";
         public static final String IMPLICIT_WAIT_TIMEOUT = "ImplicitWaitTimeout";
         public static final String OBJECT_IDENTIFICATION_TIMEOUT = "ObjectIdentificationTimeOut";

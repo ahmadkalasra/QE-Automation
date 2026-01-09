@@ -2,14 +2,11 @@ package test.driverHelper;
 
 import java.time.Duration;
 import java.util.Optional;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-
 import test.seleniumWrapper.ConfigHelper;
 import test.seleniumWrapper.TestConstants;
-
 
 public class DriverHelper
 {

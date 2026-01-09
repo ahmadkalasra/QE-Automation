@@ -1,22 +1,17 @@
 package test.driverHelper;
 
-import java.nio.file.Path;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
-import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.bonigarcia.wdm.config.Architecture;
+import org.openqa.selenium.chrome.*;
+import test.seleniumWrapper.ConfigHelper;
+import test.seleniumWrapper.TestConstants;
 
 public class ChromeDriverHelper
 {
     public WebDriver CreateChromeDriver()
     {
-        return SetupChromeDriver("");
+        String headlessConfig = ConfigHelper.getConfigValue(TestConstants.ConfigTypesKey.HEADLESS);
+        String chromeMode = (headlessConfig != null && headlessConfig.equalsIgnoreCase("true")) ? "headless" : "gui";
+        return SetupChromeDriver(chromeMode);
     }
 
     public WebDriver CreateChromeHeadlessDriver()
@@ -48,8 +43,10 @@ public class ChromeDriverHelper
         chromeOption.addArguments("--disable-notifications");
         chromeOption.addArguments("--disable-dev-shm-usage"); // Prevents crashes in high-concurrency
         chromeOption.addArguments("--no-sandbox"); 
+        
+        chromeType = chromeType.toLowerCase();
 
-        if (chromeType.equalsIgnoreCase("headless")) {
+        if (chromeType.equals("headless")) {
             chromeOption.addArguments("--headless=new");
             chromeOption.addArguments("--window-size=1920,1080");
         }

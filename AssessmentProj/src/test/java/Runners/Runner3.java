@@ -27,11 +27,10 @@ public final class Runner3 extends CustomizedTestNGCucumberRunner {
                 return super.scenarios();
         }
 
-        @Parameters("BrowserType")
         @BeforeTest
-        public void beforeTest(@Optional("CHROME") String browser) {
-                // Sets the browser for the current test context
-                ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.BROWSER, browser);
+        public void beforeTest() {
+                ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.BROWSER, System.getProperty("Browser", "CHROME"));
+                ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.HEADLESS, System.getProperty("Headless", "false"));
         }
 
         @AfterTest

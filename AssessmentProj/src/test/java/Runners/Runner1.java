@@ -28,12 +28,10 @@ public final class Runner1 extends CustomizedTestNGCucumberRunner {
         return super.scenarios();
     }
 
-    @Parameters("BrowserType")
     @BeforeTest
-    public void beforeTest(@Optional("CHROME") String browser) {
-        // @Optional ensures that if you run without testng.xml, it doesn't fail
-        // It prioritizes the TestNG XML parameter if present
-        ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.BROWSER, browser);
+    public void beforeTest() {
+        ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.BROWSER, System.getProperty("Browser", "CHROME"));
+        ConfigHelper.setConfigValue(TestConstants.ConfigTypesKey.HEADLESS, System.getProperty("Headless", "false"));
     }
 
     @AfterTest

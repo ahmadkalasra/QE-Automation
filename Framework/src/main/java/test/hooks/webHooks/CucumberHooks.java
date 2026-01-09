@@ -6,15 +6,14 @@ import io.cucumber.java.*;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.logging.log4j.*;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-
 import test.driverHelper.*;
 import java.util.HashMap;
 import test.seleniumWrapper.*;
 import test.seleniumWrapper.TestConstants.Browser_Type;
-
 import static test.seleniumWrapper.TestConstants.ConfigTypesKey.*;
-import static test.seleniumWrapper.TestConstants.*;
 
 public class CucumberHooks
 {
@@ -39,6 +38,22 @@ public class CucumberHooks
     @AfterStep
     public void AfterStep(Scenario scenario) {
         scenario.attach(DriverFactory.GetScreenShot(),"image/png", scenario.getName());
+    }
+
+    @AfterStep
+    public void afterStep(Scenario scenario) {
+        try {
+            WebDriver driver = DriverFactory.getDriver();
+            if (driver != null && scenario.isFailed()) {
+                scenario.attach(
+                    ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES),
+                    "image/png",
+                    scenario.getName()
+                );
+            }
+        } catch (Exception e) {
+            Log.warn("Skipping screenshot capture: {}", e.getMessage());
+        }
     }
 
     @Before
@@ -77,7 +92,7 @@ public class CucumberHooks
 
     @SneakyThrows
     @After
-    public synchronized void afterScenario(Scenario scenario) {
+    public void afterScenario(Scenario scenario) {
         DriverFactory.QuitDriverInstance();
     }
 

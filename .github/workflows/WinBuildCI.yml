@@ -35,8 +35,14 @@ jobs:
         run: mvn clean install -pl Framework
 
       - name: Test with Maven
-        run: mvn clean test -fae -DBrowserType="CHROME"
+        run: mvn clean test -fae -B -DBrowserType=CHROME
         timeout-minutes: 30
+
+      - name: Kill leftover browser processes
+        if: always()
+        run: |
+          taskkill /F /IM chrome.exe /T || exit 0
+          taskkill /F /IM chromedriver.exe /T || exit 0
 
       - name: Upload Archive
         uses: actions/upload-artifact@v4

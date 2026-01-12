@@ -39,7 +39,6 @@ public class ChromeDriverHelper
         
         ChromeOptions chromeOption = new ChromeOptions();
         chromeOption.addArguments("--remote-allow-origins=*");
-        chromeOption.addArguments("--start-maximized");
         chromeOption.addArguments("--disable-notifications");
         chromeOption.addArguments("--disable-dev-shm-usage"); // Prevents crashes in high-concurrency
         chromeOption.addArguments("--no-sandbox"); 
@@ -50,6 +49,7 @@ public class ChromeDriverHelper
             chromeOption.addArguments("--headless=new");
             chromeOption.addArguments("--window-size=1920,1080");
         }
+        else chromeOption.addArguments("--start-maximized");
         
         // Add logic for other types if necessary (Incognito, Mobile Emulation)
         if (chromeType.equalsIgnoreCase("incognito")) {

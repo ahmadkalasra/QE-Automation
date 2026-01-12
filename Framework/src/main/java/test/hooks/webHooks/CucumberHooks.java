@@ -31,20 +31,18 @@ public class CucumberHooks
     @BeforeStep
     public void beforeStep()
     {
-        Log.info("Before Step %s".formatted(ExtentCucumberAdapter.getCurrentStep().toString()));
-    }
-
-    @SuppressWarnings("unused")
-    @AfterStep
-    public void AfterStep(Scenario scenario) {
-        scenario.attach(DriverFactory.GetScreenShot(),"image/png", scenario.getName());
+        if (Log.isDebugEnabled()) {
+            Log.info("Before Step %s".formatted(ExtentCucumberAdapter.getCurrentStep().toString()));
+        }
     }
 
     @AfterStep
     public void afterStep(Scenario scenario) {
         try {
             WebDriver driver = DriverFactory.getDriver();
-            if (driver != null && scenario.isFailed()) {
+            if (driver == null) return;
+
+            if (scenario.isFailed()) {
                 scenario.attach(
                     ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES),
                     "image/png",

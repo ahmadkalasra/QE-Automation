@@ -21,7 +21,6 @@ public class DriverHelper
 
             if (driver == null) throw new RuntimeException("Driver creation returned null.");
 
-            driver.manage().window().maximize();
             driver.manage().deleteAllCookies();
 
             // Safe parsing for timeouts with defaults
@@ -33,8 +32,7 @@ public class DriverHelper
             
             return driver;
         } catch (Exception ex) {
-            Log.error("WebDriver initialization failed: " + ex.getMessage());
-            return null; // This triggers the "Fatal: WebDriver instance is null" in Factory
+            throw new RuntimeException("WebDriver initialization failed", ex);
         }
     }
 }

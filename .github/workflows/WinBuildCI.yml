@@ -37,7 +37,7 @@ jobs:
           -B
           -DBrowserType=CHROME
           -DHeadless=false
-          -Dcucumber.filter.tags="@Test1 or @Test2 or @Test3"
+      # -Dcucumber.filter.tags="@Test1 or @Test2 or @Test3"
 
       - name: Upload Test Artifacts
         uses: actions/upload-artifact@v4
